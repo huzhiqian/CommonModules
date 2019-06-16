@@ -1,0 +1,6 @@
+C:\Users\Administrator\Desktop\CommonModules\CommonModules\bin\Debug\CommonModules.dll
+C:\Users\Administrator\Desktop\CommonModules\CommonModules\bin\Debug\CommonModules.pdb
+C:\Users\Administrator\Desktop\CommonModules\CommonModules\obj\Debug\CommonModules.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\CommonModules\CommonModules\obj\Debug\CommonModules.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\CommonModules\CommonModules\obj\Debug\CommonModules.dll
+C:\Users\Administrator\Desktop\CommonModules\CommonModules\obj\Debug\CommonModules.pdb
