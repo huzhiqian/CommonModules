@@ -4,3 +4,12 @@ C:\Users\Administrator\Desktop\CommonModules\CommonModules\obj\Debug\CommonModul
 C:\Users\Administrator\Desktop\CommonModules\CommonModules\obj\Debug\CommonModules.csproj.CoreCompileInputs.cache
 C:\Users\Administrator\Desktop\CommonModules\CommonModules\obj\Debug\CommonModules.dll
 C:\Users\Administrator\Desktop\CommonModules\CommonModules\obj\Debug\CommonModules.pdb
+I:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\CommonModules.dll
+I:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\CommonModules.pdb
+I:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.csprojAssemblyReference.cache
+I:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.csproj.CoreCompileInputs.cache
+I:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.dll
+I:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.pdb
+I:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\log4net.dll
+I:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\log4net.xml
+I:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.csproj.CopyComplete
