@@ -35,7 +35,9 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,9 +48,15 @@
   <ItemGroup>
     <Compile Include="INIFileHelper\INIHelper.cs" />
     <Compile Include="LogHelper\LogHelper.cs" />
+    <Compile Include="Notifier\INotifyBoard.cs" />
+    <Compile Include="Notifier\NotifyHelper.cs" />
+    <Compile Include="Notifier\NotifyItem.cs" />
+    <Compile Include="Notifier\NotifyListBox.cs" />
+    <Compile Include="Notifier\NotifyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="LogHelper\log4net.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

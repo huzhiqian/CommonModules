@@ -13,3 +13,12 @@ I:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModul
 I:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\log4net.dll
 I:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\log4net.xml
 I:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.csproj.CopyComplete
+G:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\CommonModules.dll
+G:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\CommonModules.pdb
+G:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\log4net.dll
+G:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\log4net.xml
+G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.csprojAssemblyReference.cache
+G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.csproj.CoreCompileInputs.cache
+G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.csproj.CopyComplete
+G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.dll
+G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.pdb
