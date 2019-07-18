@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfigManager\AppConfigManager.cs" />
+    <Compile Include="AppConfigManager\CustomConfigurationBaseSection.cs" />
     <Compile Include="INIFileHelper\INIHelper.cs" />
     <Compile Include="LogHelper\LogHelper.cs" />
     <Compile Include="Notifier\INotifyBoard.cs" />
@@ -53,11 +55,13 @@
     <Compile Include="Notifier\NotifyItem.cs" />
     <Compile Include="Notifier\NotifyListBox.cs" />
     <Compile Include="Notifier\NotifyManager.cs" />
+    <Compile Include="Notifier\NotifyTextBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LogHelper\log4net.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

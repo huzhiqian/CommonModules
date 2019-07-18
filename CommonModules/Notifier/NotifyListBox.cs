@@ -10,6 +10,7 @@ namespace CommonModules.Notifier
         public NotifyListBox(ListBox listCtrl)
         {
             infoListCtrl = listCtrl;
+            MaxDisplayCount=50;
         }
         public void CleraBoard()
         {
@@ -19,7 +20,7 @@ namespace CommonModules.Notifier
 
         #region 属性
 
-        public int MaxDisplayCount { get; set; } = 50;
+        public int MaxDisplayCount { get; set; } 
 
         #endregion
 

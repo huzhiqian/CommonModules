@@ -12,5 +12,7 @@
 
 [2019-6-30 20:11] 添加Notifier模块，用于显示软件运行信息，是对LogHelper的简单封装；  
 
+[2019-7-18 21:09] 添加AppConfigManager模块，主要用于读取App.config文件中appSettings项和connectionStrings项以及自定义的项   
+
 
 ##修改记录  

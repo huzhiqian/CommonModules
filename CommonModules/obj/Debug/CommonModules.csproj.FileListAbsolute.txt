@@ -22,3 +22,9 @@ G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModul
 G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.csproj.CopyComplete
 G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.dll
 G:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.pdb
+F:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\CommonModules.dll
+F:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\CommonModules.pdb
+F:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\log4net.dll
+F:\软件框架及常用模块\CommonModules\CommonModules\bin\Debug\log4net.xml
+F:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.dll
+F:\软件框架及常用模块\CommonModules\CommonModules\obj\Debug\CommonModules.pdb
