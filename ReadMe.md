@@ -14,5 +14,7 @@
 
 [2019-7-18 21:09] 添加AppConfigManager模块，主要用于读取App.config文件中appSettings项和connectionStrings项以及自定义的项   
 
+[2020-2-3 12:51] 添加SerializeHelper类，该类提供了三种序列化与反序列化的类，分别是BinarySerialize(二进制序列化)、XMLSerialize(xml序列化)以及JsonSerialzie(Json序列化)。 
+
 
 ##修改记录  
