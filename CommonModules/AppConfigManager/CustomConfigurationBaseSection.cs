@@ -10,7 +10,7 @@ using System.Configuration;
 //文件名：CustomConfigurationBaseSection
 //命名空间：CommonModules.AppConfigManager
 //CLR版本：4.0.30319.42000
-//内容：包含一些常用基本配置项
+//内容：包含一些常用基本配置项，自定义配置节中包含[ConfigFileName]:配置文件名；[ID]:id；[Value]:值这三项基础配置项
 //功能：配置文件自定义配置项基类
 //文件关系：
 //作者：胡志乾
@@ -31,14 +31,14 @@ namespace CommonModules.AppConfigManager
 
         public CustomConfigurationBaseSection()
         {
-            this.ConfigFile = "Config.cfg";
+            this.ConfigFileName = "Config.cfg";
             this.ID = 1;
             this.Value = string.Empty;
         }
 
         public CustomConfigurationBaseSection(string cfgFile, int id, string value)
         {
-            this.ConfigFile = cfgFile;
+            this.ConfigFileName = cfgFile;
             this.ID = id;
             this.Value = value;
         }
@@ -48,9 +48,13 @@ namespace CommonModules.AppConfigManager
 
         #region 属性
 
+        /// <summary>
+        /// 配置文件名称，默认名为Config.cfg,且是必须的。不可包含[~!@#$%^&*()[]{}/;'\"|\\]这些非法字符。
+        /// 文件名最小长度为3，最大长度为50
+        /// </summary>
         [ConfigurationProperty("ConfigFile", DefaultValue = "Config.cfg", IsRequired = true)]
-        [StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\"/*非法字符*/, MaxLength = 50, MinLength = 1)]
-        public string ConfigFile
+        [StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\"/*非法字符*/, MaxLength = 50, MinLength = 3)]
+        public string ConfigFileName
         {
             get { return (string)this["ConfigFile"]; }
             set
@@ -67,7 +71,7 @@ namespace CommonModules.AppConfigManager
             set { this["ID"] = value; }
         }
 
-        [ConfigurationProperty("Value", DefaultValue = "", IsRequired = false)]
+        [ConfigurationProperty("Value", DefaultValue = null, IsRequired = false)]
         //[StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\"/*非法字符*/, MaxLength = 50, MinLength = 1)]
         public string Value
         {
