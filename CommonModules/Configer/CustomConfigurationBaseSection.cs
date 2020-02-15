@@ -8,7 +8,7 @@ using System.Configuration;
 
 //**********************************************
 //文件名：CustomConfigurationBaseSection
-//命名空间：CommonModules.AppConfigManager
+//命名空间：CommonModules.Configer
 //CLR版本：4.0.30319.42000
 //内容：包含一些常用基本配置项，自定义配置节中包含[ConfigFileName]:配置文件名；[ID]:id；[Value]:值这三项基础配置项
 //功能：配置文件自定义配置项基类
@@ -22,7 +22,7 @@ using System.Configuration;
 //联系电话：18352567214
 //**********************************************
 
-namespace CommonModules.AppConfigManager
+namespace CommonModules.Configer
 {
    public class CustomConfigurationBaseSection:ConfigurationSection
     {

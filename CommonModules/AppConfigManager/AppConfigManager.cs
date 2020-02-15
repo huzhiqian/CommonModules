@@ -80,6 +80,7 @@ namespace CommonModules.AppConfigManager
 
         }
 
+
         public static T GetSection<T>(string name) where T : ConfigurationSection
         {
             if (_appConfig == null || _error) return null;
