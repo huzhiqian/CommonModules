@@ -25,33 +25,64 @@ using System.Collections;
 
 namespace CommonModules.Configer
 {
-   public class ConfigItemManager
+    public sealed class ConfigItemManager   //该类不可被继承
     {
         private string fullPath = string.Empty;
-        private Dictionary<string, ConfigItem> configs = 
+        private Dictionary<string, ConfigItem> configs =
             new Dictionary<string, ConfigItem>();//存储所有配置项的字典
 
-         #region 构造函数
+        private static object syncLock = new object();//同步锁
+        private static ConfigItemManager _configItemManager;
+        #region 构造函数
 
-        public ConfigItemManager()
+        private ConfigItemManager()
         {
 
         }
 
 
-        public ConfigItemManager(string filePath)
+        private ConfigItemManager(string filePath)
         {
             try
             {
                 LoadConfigsFromXMLFile(filePath);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.FATAL,"读取配置文件出错！",ex);
+                Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.FATAL, "读取配置文件出错！", ex);
                 throw ex;
             }
         }
 
+        public static ConfigItemManager CreateInstance()
+        {
+            if (_configItemManager == null)
+            {
+                lock (syncLock)//双重锁定
+                {
+                    if (_configItemManager == null)
+                    {
+                        _configItemManager = new ConfigItemManager();
+                    }
+                }
+            }
+            return _configItemManager;
+        }
+
+        public static ConfigItemManager CreateInstance(string filePath)
+        {
+            if (_configItemManager == null)
+            {
+                lock (syncLock)//双重锁定
+                {
+                    if (_configItemManager == null)
+                    {
+                        _configItemManager = new ConfigItemManager(filePath);
+                    }
+                }
+            }
+            return _configItemManager;
+        }
         #endregion
 
 
@@ -64,10 +95,11 @@ namespace CommonModules.Configer
         /// <returns></returns>
         public object this[string key]
         {
-            get {
+            get
+            {
                 if (ContainsKey(key))
                 {
-                    return configs[key];
+                    return configs[key].Value;
                 }
                 else
                 {
@@ -77,7 +109,7 @@ namespace CommonModules.Configer
         }
 
 
-        public object GetConfigItem(string key,object defaultValue)
+        public object GetConfigItem(string key, object defaultValue)
         {
             if (this.ContainsKey(key))
             {
@@ -85,17 +117,17 @@ namespace CommonModules.Configer
             }
             else
             {
-                SaveConfigItem(key,defaultValue);
+                SaveConfigItem(key, defaultValue);
                 return defaultValue;
             }
         }
 
 
-        public void SaveConfigItem(string key,object value)
+        public void SaveConfigItem(string key, object value)
         {
             try
             {
-                AddConfigItem(new ConfigItem(key,value));
+                AddConfigItem(new ConfigItem(key, value));
                 SerializeSave(this.fullPath);
             }
             catch (Exception ex)
@@ -113,26 +145,30 @@ namespace CommonModules.Configer
         /// <param name="path"></param>
         public void LoadConfigsFromXMLFile(string path)
         {
-            this.fullPath = path;
-            if (!System.IO.File.Exists(path))
+            lock (syncLock)
             {
-                AddConfigItem(new ConfigItem("Sample_Key", "Sample_Value", "NULL"));
-                //序列化保存
-                SerializeSave(this.fullPath);
-                return;
-            }
+                this.fullPath = path;
+                if (!System.IO.File.Exists(path))
+                {
+                    AddConfigItem(new ConfigItem("Sample_Key", "Sample_Value", "NULL"));
+                    //序列化保存
+                    SerializeSave(this.fullPath);
+                    return;
+                }
 
-            try
-            {
-                List<ConfigItem> items = SerializerHelper.XMLSerialization.DeserializeFile
-                    <List<ConfigItem>>(path);
-                configs = items.ToDictionary(key=>key.Key,value=>value);
+                try
+                {
+                    List<ConfigItem> items = SerializerHelper.XMLSerialization.DeserializeFile
+                        <List<ConfigItem>>(path);
+                    configs = items.ToDictionary(key => key.Key, value => value);
+                }
+                catch (Exception ex)
+                {
+                    Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.ERROR, "加载配置文件出错！", ex);
+                    throw ex;
+                }
             }
-            catch (Exception ex)
-            {
-                Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.ERROR,"加载配置文件出错！",ex);
-                throw ex;
-            }
+        
         }
 
         /// <summary>
@@ -141,12 +177,14 @@ namespace CommonModules.Configer
         /// <param name="cfgItem"></param>
         public void AddConfigItem(ConfigItem cfgItem)
         {
-            if (configs.ContainsKey(cfgItem.Key))
+            lock (syncLock)
             {
-                configs.Remove(cfgItem.Key);
+                if (configs.ContainsKey(cfgItem.Key))
+                {
+                    configs.Remove(cfgItem.Key);
+                }
+                configs.Add(cfgItem.Key, cfgItem);
             }
-            configs.Add(cfgItem.Key,cfgItem);
-
         }
 
         public void SerializeSave()
@@ -156,16 +194,20 @@ namespace CommonModules.Configer
 
         public void SerializeSave(string path)
         {
-            List<ConfigItem> valueList = configs.Values.ToList();
-            try
+            lock (syncLock)
             {
-                SerializerHelper.XMLSerialization.SerializeFile(valueList,path);
+                List<ConfigItem> valueList = configs.Values.ToList();
+                try
+                {
+                    SerializerHelper.XMLSerialization.SerializeFile(valueList, path);
+                }
+                catch (Exception ex)
+                {
+                    Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.ERROR, "配置项序列化保存出错！", ex);
+                    throw ex;
+                }
             }
-            catch (Exception ex)
-            {
-                Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.ERROR,"配置项序列化保存出错！",ex);
-                throw ex;
-            }
+         
         }
 
         /// <summary>
@@ -183,15 +225,19 @@ namespace CommonModules.Configer
 
         private ConfigItem GetItem(string key)
         {
-            if (configs.ContainsKey(key))
+            lock (syncLock)
             {
-                return configs[key];
+                if (configs.ContainsKey(key))
+                {
+                    return configs[key];
+                }
+                else
+                {
+                    Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.ERROR, $"未找到配置项：{key}！");
+                    return null;
+                }
             }
-            else
-            {
-                Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.ERROR, $"未找到配置项：{key}！");
-                return null;
-            }
+           
 
         }
 

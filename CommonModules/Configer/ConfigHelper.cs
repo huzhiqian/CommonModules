@@ -51,11 +51,11 @@ namespace CommonModules.Configer
                     if (section != null)
                     {
                         string fullName = System.Environment.CurrentDirectory + @"\" + section.ConfigFileName;
-                        _configItemManager = new ConfigItemManager(fullName);
+                        _configItemManager = ConfigItemManager.CreateInstance(fullName);
                     }
                     else
                     {
-                        _configItemManager = new ConfigItemManager();
+                        _configItemManager = ConfigItemManager.CreateInstance();
                     }
                 }
                 return _configItemManager;

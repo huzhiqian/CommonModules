@@ -52,6 +52,7 @@ namespace CommonModules.Configer
         /// </summary>
         public string Key {
             get { return _key; }
+            set { _key = value; }
         }
 
         /// <summary>
@@ -61,6 +62,7 @@ namespace CommonModules.Configer
             get { return _value; }
             set {
                 _value = value;
+
             }
         }
 
