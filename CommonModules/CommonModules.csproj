@@ -62,6 +62,13 @@
     <Compile Include="Notifier\NotifyTextBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializerHelper\SerializerHelper.cs" />
+    <Compile Include="TCP\AsyncTCPClient.cs" />
+    <Compile Include="TCP\TcpClientConnectedEventArgs.cs" />
+    <Compile Include="TCP\TCPClientDisConnectedEventArgs.cs" />
+    <Compile Include="TCP\TCPDatagramReceiveEventArgs.cs" />
+    <Compile Include="TCP\TCPServerConnectedEventArgs.cs" />
+    <Compile Include="TCP\TCPServerDisconnectedEventArgs.cs" />
+    <Compile Include="TCP\TcpServerExceptionOccurredEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LogHelper\log4net.config" />
