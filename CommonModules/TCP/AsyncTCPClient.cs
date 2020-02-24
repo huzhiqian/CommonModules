@@ -40,14 +40,14 @@ namespace CommonModules.TCP
         /// <param name="remoteEP"></param>
         /// <param name="localEP"></param>
         public AsyncTCPClient(IPEndPoint remoteEP, IPEndPoint localEP)
-        : this(new[] { remoteEP.Address},remoteEP.Port,localEP) { }
+        : this(new[] { remoteEP.Address }, remoteEP.Port, localEP) { }
 
         /// <summary>
         /// 异步TCP客户端
         /// </summary>
         /// <param name="remoteEP">远程服务器终结点</param>
         public AsyncTCPClient(IPEndPoint remoteEP)
-            : this(new[] { remoteEP.Address},remoteEP.Port) { }
+            : this(new[] { remoteEP.Address }, remoteEP.Port) { }
 
         /// <summary>
         /// 异步TCP客户端
@@ -55,7 +55,7 @@ namespace CommonModules.TCP
         /// <param name="remoteIPAddress">远程服务器IP地址</param>
         /// <param name="remotePort">远程服务器端口号</param>
         public AsyncTCPClient(IPAddress remoteIPAddress, int remotePort)
-            : this(new[] { remoteIPAddress},remotePort) { }
+            : this(new[] { remoteIPAddress }, remotePort) { }
 
         /// <summary>
         /// 异步TCP客户端
@@ -63,7 +63,7 @@ namespace CommonModules.TCP
         /// <param name="remoteHostName">远程服务器主机名</param>
         /// <param name="remotePort">远程服务器端口号</param>
         public AsyncTCPClient(string remoteHostName, int remotePort)
-            :this(Dns.GetHostAddresses(remoteHostName), remotePort)
+            : this(Dns.GetHostAddresses(remoteHostName), remotePort)
         { }
 
         /// <summary>
@@ -72,8 +72,8 @@ namespace CommonModules.TCP
         /// <param name="remoteHostName"></param>
         /// <param name="remotePort"></param>
         /// <param name="localEP"></param>
-        public AsyncTCPClient(string remoteHostName,int remotePort,IPEndPoint localEP)
-            :this(Dns.GetHostAddresses(remoteHostName),remotePort,localEP)
+        public AsyncTCPClient(string remoteHostName, int remotePort, IPEndPoint localEP)
+            : this(Dns.GetHostAddresses(remoteHostName), remotePort, localEP)
         {
 
         }
@@ -84,8 +84,8 @@ namespace CommonModules.TCP
         /// <param name="remoteIPAddress">远端服务器IP地址列表</param>
         /// <param name="remotePort">远端服务器端口号</param>
         /// <param name="receiveBufferSize">接收缓冲区大小</param>
-        public AsyncTCPClient(IPAddress[] remoteIPAddress, int remotePort, int receiveBufferSize=1024)
-            : this(remoteIPAddress, remotePort,  null, receiveBufferSize)
+        public AsyncTCPClient(IPAddress[] remoteIPAddress, int remotePort, int receiveBufferSize = 1024)
+            : this(remoteIPAddress, remotePort, null, receiveBufferSize)
         {
 
         }
@@ -97,21 +97,23 @@ namespace CommonModules.TCP
         /// <param name="remotePort">远端服务器端口号</param>
         /// <param name="localEP">本地端口号终结点</param>
         /// <param name="receiveBufferSize">接收数据缓冲区大小(默认大小1024)</param>
-        public AsyncTCPClient(IPAddress[] remoteIPAddress, int remotePort, IPEndPoint localEP,int receiveBufferSize=1024)
+        public AsyncTCPClient(IPAddress[] remoteIPAddress, int remotePort, IPEndPoint localEP, int receiveBufferSize = 1024)
         {
             this.Address = remoteIPAddress;
             this.Port = remotePort;
-            this.BufferSize = receiveBufferSize;
+
             this.LocalIPEndPoint = localEP;
             this.Encoding = Encoding.Default;
             if (this.LocalIPEndPoint != null)
             {
                 this.tcpClient = new TcpClient(this.LocalIPEndPoint);
+
             }
             else
             {
                 this.tcpClient = new TcpClient();
             }
+            this.BufferSize = receiveBufferSize;
             retries = 3;
             RetryInteravl = 3;
         }
@@ -187,8 +189,10 @@ namespace CommonModules.TCP
 
         public AsyncTCPClient Connect()
         {
-            if (!Connected) {
-
+            if (!Connected)
+            {
+                IAsyncResult result = tcpClient.BeginConnect(Address, Port, TcpServerConnectedCallBack, tcpClient);
+                result.AsyncWaitHandle.WaitOne(200);
             }
             return this;
         }
@@ -198,28 +202,28 @@ namespace CommonModules.TCP
             try
             {
                 tcpClient.EndConnect(ar);
-                OnServerConnected(Address,Port);
+                OnServerConnected(Address, Port);
                 retries = 0;
             }
             catch (Exception ex)
             {
                 if (retries > 0)
                 {
-                    Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.INFO,string.Format(
-                        "Connect to server with retry {0} failed.",retries));
+                    Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.INFO, string.Format(
+                        "Connect to server with retry {0} failed.", retries));
                 }
                 retries++;
                 if (retries > Retries)
                 {
                     Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.WARNING,
-                        "Waiting {0} seconds before retrying to connect to server.",ex);
+                        "Waiting {0} seconds before retrying to connect to server.", ex);
                     Thread.Sleep(TimeSpan.FromSeconds(this.RetryInteravl));
                     return;
                 }
-                //Connected Successfually and start async Reveive Datagream
-                byte[] buffer = new byte[this.tcpClient.ReceiveBufferSize];
-                tcpClient.GetStream().BeginRead(buffer,0, buffer.Length,BeginReadCallBack,buffer);
             }
+            //Connected Successfually and start async Reveive Datagream
+            byte[] buffer = new byte[this.tcpClient.ReceiveBufferSize];
+            tcpClient.GetStream().BeginRead(buffer, 0, buffer.Length, BeginReadCallBack, buffer);
         }
         #endregion
 
@@ -236,7 +240,7 @@ namespace CommonModules.TCP
                 closing = true;
                 retries = 0;
                 this.tcpClient.Close();
-                OnServerDisconnected(Address,this.Port);
+                OnServerDisconnected(Address, this.Port);
             }
             return this;
         }
@@ -251,7 +255,7 @@ namespace CommonModules.TCP
         /// <param name="datagram">报文数据</param>
         public void Send(string datagram)
         {
-            
+            Send(this.Encoding.GetBytes(datagram));
         }
 
         /// <summary>
@@ -266,7 +270,7 @@ namespace CommonModules.TCP
             {
                 throw new InvalidOperationException("发送失败，未连接到服务器。");
             }
-            tcpClient.GetStream().BeginWrite(datagram,0,datagram.Length, SendCallBack,this.tcpClient);
+            tcpClient.GetStream().BeginWrite(datagram, 0, datagram.Length, SendCallBack, this.tcpClient);
         }
 
 
@@ -302,7 +306,7 @@ namespace CommonModules.TCP
                 {
 
                     Notifier.NotifyHelper.Notify(Notifier.NotifyLevel.ERROR,
-                        "EndRead Server Data Error",ex);
+                        "EndRead Server Data Error", ex);
                 }
                 if (numReadBytes == 0)
                 {
@@ -313,12 +317,12 @@ namespace CommonModules.TCP
                 //Receive Bytes 
                 byte[] buffer = (byte[])ar.AsyncState;
                 byte[] receiveBytes = new byte[numReadBytes];
-                Buffer.BlockCopy(buffer,0,receiveBytes,0,numReadBytes);
-                OnDatagramReceived(this.tcpClient,receiveBytes);
-                OnPlaintextReceived(this.tcpClient,receiveBytes);
+                Buffer.BlockCopy(buffer, 0, receiveBytes, 0, numReadBytes);
+                OnDatagramReceived(this.tcpClient, receiveBytes);
+                OnPlaintextReceived(this.tcpClient, receiveBytes);
 
                 //Read Datagram from network again
-                ntStream.BeginRead(buffer,0,buffer.Length, BeginReadCallBack,buffer);
+                ntStream.BeginRead(buffer, 0, buffer.Length, BeginReadCallBack, buffer);
 
             }
             catch (Exception ex)
@@ -333,9 +337,9 @@ namespace CommonModules.TCP
         /// </summary>
         /// <param name="ipAddress"></param>
         /// <param name="port"></param>
-        protected virtual  void OnServerConnected(IPAddress[] ipAddress,int port)
+        protected virtual void OnServerConnected(IPAddress[] ipAddress, int port)
         {
-            ServerConnected?.Invoke(this, new TCPServerConnectedEventArgs(ipAddress,port));
+            ServerConnected?.Invoke(this, new TCPServerConnectedEventArgs(ipAddress, port));
         }
 
         /// <summary>
@@ -343,9 +347,9 @@ namespace CommonModules.TCP
         /// </summary>
         /// <param name="ipAddress"></param>
         /// <param name="port"></param>
-        protected virtual void OnServerDisconnected(IPAddress[] ipAddress,int port)
+        protected virtual void OnServerDisconnected(IPAddress[] ipAddress, int port)
         {
-            ServerDisconnected?.Invoke(this,new TCPServerDisconnectedEventArgs(ipAddress,port));
+            ServerDisconnected?.Invoke(this, new TCPServerDisconnectedEventArgs(ipAddress, port));
         }
 
         /// <summary>
@@ -354,10 +358,10 @@ namespace CommonModules.TCP
         /// <param name="ipAddress"></param>
         /// <param name="port"></param>
         /// <param name="innerException"></param>
-        protected virtual void OnServerExceptionOccurred(IPAddress[] ipAddress,int port,Exception innerException)
+        protected virtual void OnServerExceptionOccurred(IPAddress[] ipAddress, int port, Exception innerException)
         {
             ServerExceptionOccurred?.Invoke(this,
-                new TCPServerExceptionOccurredEventArgs(ipAddress,port, innerException));
+                new TCPServerExceptionOccurredEventArgs(ipAddress, port, innerException));
         }
 
         /// <summary>
@@ -365,9 +369,9 @@ namespace CommonModules.TCP
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="datagram"></param>
-        private void OnDatagramReceived(TcpClient sender,byte[] datagram)
+        private void OnDatagramReceived(TcpClient sender, byte[] datagram)
         {
-            DatagramReceived?.Invoke(this,new TCPDatagramReceiveEventArgs<byte[]>(sender,datagram));
+            DatagramReceived?.Invoke(this, new TCPDatagramReceiveEventArgs<byte[]>(sender, datagram));
         }
 
         /// <summary>
@@ -375,10 +379,10 @@ namespace CommonModules.TCP
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="datagram"></param>
-        private void OnPlaintextReceived(TcpClient sender,byte[] datagram)
+        private void OnPlaintextReceived(TcpClient sender, byte[] datagram)
         {
-            PlaintextReceived?.Invoke(this,new TCPDatagramReceiveEventArgs<string>(
-                sender,this.Encoding.GetString(datagram)));
+            PlaintextReceived?.Invoke(this, new TCPDatagramReceiveEventArgs<string>(
+                sender, this.Encoding.GetString(datagram)));
         }
         #endregion
 
