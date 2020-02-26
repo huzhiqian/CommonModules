@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections;
-using System.Net.Sockets;
 
 
 //**********************************************
-//文件名：TCPDatagramReceiveEventArgs
+//文件名：TCPClientState
 //命名空间：CommonModules.TCP
 //CLR版本：4.0.30319.42000
-//内容：
+//内容：Internal Class to join the TCP client and buffer
+//     together for easy management in the server
 //功能：
 //文件关系：
 //作者：胡志乾
 //小组：
-//生成日期：2020/2/23 15:45:00
+//生成日期：2020/2/26 9:51:58
 //版本号：V1.0.0.0
 //修改日志：
 //版权说明：
@@ -26,30 +26,33 @@ using System.Net.Sockets;
 
 namespace CommonModules.TCP
 {
-   public class TCPDatagramReceiveEventArgs<T>:EventArgs
+   internal class TCPClientState
     {
-        /// <summary>
-        /// 接收报文数据事件参数
-        /// </summary>
-        /// <param name="tcpClient">客户端</param>
-        /// <param name="datagram">报文数据</param>
-        public TCPDatagramReceiveEventArgs(AsyncTCPClient tcpClient, T datagram)
+
+        #region 构造函数
+
+        public TCPClientState(AsyncTCPClient client,byte[] buffer)
         {
-            this.TcpClient = tcpClient;
-            this.DataGram = datagram;
+            TcpClient = client;
+            Buffer = buffer;
         }
+
+        #endregion
+
 
         #region 属性
 
         /// <summary>
-        /// 客户端
+        /// Get the TCP Clientt
         /// </summary>
         public AsyncTCPClient TcpClient { get; private set; }
 
         /// <summary>
-        /// 报文数据
+        /// Get the Buffer
         /// </summary>
-        public T DataGram { get; private set; }
+        public byte[] Buffer { get; private set; }
         #endregion
+
+       
     }
 }

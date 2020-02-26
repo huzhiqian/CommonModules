@@ -52,6 +52,7 @@
     <Compile Include="Configer\ConfigItem.cs" />
     <Compile Include="Configer\ConfigItemManager.cs" />
     <Compile Include="Configer\CustomConfigurationBaseSection.cs" />
+    <Compile Include="ControlSafeOPeration\CtrlSafeOpreation.cs" />
     <Compile Include="INIFileHelper\INIHelper.cs" />
     <Compile Include="LogHelper\LogHelper.cs" />
     <Compile Include="Notifier\INotifyBoard.cs" />
@@ -65,7 +66,10 @@
     <Compile Include="TCP\AsyncTCPClient.cs" />
     <Compile Include="TCP\TcpClientConnectedEventArgs.cs" />
     <Compile Include="TCP\TCPClientDisConnectedEventArgs.cs" />
+    <Compile Include="TCP\TCPClientExceptionOccurredEventArgs.cs" />
+    <Compile Include="TCP\TCPClientState.cs" />
     <Compile Include="TCP\TCPDatagramReceiveEventArgs.cs" />
+    <Compile Include="TCP\AsyncTCPServer.cs" />
     <Compile Include="TCP\TCPServerConnectedEventArgs.cs" />
     <Compile Include="TCP\TCPServerDisconnectedEventArgs.cs" />
     <Compile Include="TCP\TcpServerExceptionOccurredEventArgs.cs" />

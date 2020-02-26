@@ -24,20 +24,25 @@ namespace CommonModules.Notifier
 
         public void CleraBoard()
         {
-            infoTextbox.Text = string.Empty;
+            ControlSafeOPeration.CtrlSafeOperation.InvokeSafeOperation(infoTextbox,()=> {
+                infoTextbox.Text = string.Empty;
+            });       
         }
 
         public void DisplayNitifyItemInfo(NotifyItem info)
         {
-            if (string.IsNullOrEmpty(infoTextbox.Text))
-                showInfoLineCount = 0;
-            showInfoLineCount++;
-            if (showInfoLineCount > MaxDisplayCount)
-            {
-                var line = infoTextbox.Text.Split(new[] { "\r\n"},StringSplitOptions.None);
-                infoTextbox.Text = string.Join(System.Environment.NewLine,line.Skip(1));
-            }
-            infoTextbox.AppendText ( string.Format("{0} {1}\r\n",DateTime.Now.ToString("HH:mm:ss.fff"),info.message));
+            ControlSafeOPeration.CtrlSafeOperation.InvokeSafeOperation(infoTextbox,()=> {
+                if (string.IsNullOrEmpty(infoTextbox.Text))
+                    showInfoLineCount = 0;
+                showInfoLineCount++;
+                if (showInfoLineCount > MaxDisplayCount)
+                {
+                    var line = infoTextbox.Text.Split(new[] { "\r\n" }, StringSplitOptions.None);
+                    infoTextbox.Text = string.Join(System.Environment.NewLine, line.Skip(1));
+                }
+                infoTextbox.AppendText(string.Format("{0} {1}\r\n", DateTime.Now.ToString("HH:mm:ss.fff"), info.message));
+            });
+           
         }
     }
 }

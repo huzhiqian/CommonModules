@@ -29,7 +29,7 @@ namespace CommonModules.TCP
    public class TcpClientConnectedEventArgs:EventArgs
     {
 
-        public TcpClientConnectedEventArgs(TcpClient client)
+        public TcpClientConnectedEventArgs(AsyncTCPClient client)
         {
             if (client == null)
                 throw new ArgumentNullException("TcpClient");
@@ -40,6 +40,6 @@ namespace CommonModules.TCP
         /// <summary>
         /// 客户端
         /// </summary>
-        public TcpClient TcpClient { get; private set; }
+        public AsyncTCPClient TcpClient { get; private set; }
     }
 }

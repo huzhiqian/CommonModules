@@ -32,6 +32,7 @@ namespace CommonModules.TCP
         private TcpClient tcpClient;
         private int retries = 0;
         private bool closing = false;
+
         #region 构造函数
 
         /// <summary>
@@ -119,6 +120,21 @@ namespace CommonModules.TCP
         }
 
 
+        /// <summary>
+        /// 异步TCP客户端
+        /// </summary>
+        /// <param name="client">客户端对象</param>
+        /// <param name="encoding">通信编码</param>
+        public AsyncTCPClient(TcpClient client,Encoding encoding)
+        {
+            this.tcpClient = client;
+            this.Address = new IPAddress[] { (client.Client.LocalEndPoint as IPEndPoint).Address };
+            this.Port = (client.Client.LocalEndPoint as IPEndPoint).Port;
+            this.LocalIPEndPoint = client.Client.LocalEndPoint as IPEndPoint;
+            this.Encoding = encoding;
+         
+
+        }
         #endregion
 
 
@@ -133,6 +149,14 @@ namespace CommonModules.TCP
             {
                 return tcpClient.Client.Connected;
             }
+        }
+
+        /// <summary>
+        /// 获取基础Client对象
+        /// </summary>
+        public TcpClient Client
+        {
+            get { return tcpClient; }
         }
 
         /// <summary>
@@ -318,8 +342,8 @@ namespace CommonModules.TCP
                 byte[] buffer = (byte[])ar.AsyncState;
                 byte[] receiveBytes = new byte[numReadBytes];
                 Buffer.BlockCopy(buffer, 0, receiveBytes, 0, numReadBytes);
-                OnDatagramReceived(this.tcpClient, receiveBytes);
-                OnPlaintextReceived(this.tcpClient, receiveBytes);
+                OnDatagramReceived(this, receiveBytes);
+                OnPlaintextReceived(this, receiveBytes);
 
                 //Read Datagram from network again
                 ntStream.BeginRead(buffer, 0, buffer.Length, BeginReadCallBack, buffer);
@@ -339,7 +363,7 @@ namespace CommonModules.TCP
         /// <param name="port"></param>
         protected virtual void OnServerConnected(IPAddress[] ipAddress, int port)
         {
-            ServerConnected?.Invoke(this, new TCPServerConnectedEventArgs(ipAddress, port));
+            ServerConnected?.Invoke(this, new TCPServerConnectedEventArgs(ipAddress[0], port));
         }
 
         /// <summary>
@@ -349,7 +373,7 @@ namespace CommonModules.TCP
         /// <param name="port"></param>
         protected virtual void OnServerDisconnected(IPAddress[] ipAddress, int port)
         {
-            ServerDisconnected?.Invoke(this, new TCPServerDisconnectedEventArgs(ipAddress, port));
+            ServerDisconnected?.Invoke(this, new TCPServerDisconnectedEventArgs(ipAddress[0], port));
         }
 
         /// <summary>
@@ -358,10 +382,10 @@ namespace CommonModules.TCP
         /// <param name="ipAddress"></param>
         /// <param name="port"></param>
         /// <param name="innerException"></param>
-        protected virtual void OnServerExceptionOccurred(IPAddress[] ipAddress, int port, Exception innerException)
+        protected virtual void OnClientExceptionOccurred(IPAddress[] ipAddress, int port, Exception innerException)
         {
-            ServerExceptionOccurred?.Invoke(this,
-                new TCPServerExceptionOccurredEventArgs(ipAddress, port, innerException));
+            ClientExceptionOccurred?.Invoke(this,
+                new TCPClientExceptionOccurredEventArgs(ipAddress, port, innerException));
         }
 
         /// <summary>
@@ -369,7 +393,7 @@ namespace CommonModules.TCP
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="datagram"></param>
-        private void OnDatagramReceived(TcpClient sender, byte[] datagram)
+        private void OnDatagramReceived(AsyncTCPClient sender, byte[] datagram)
         {
             DatagramReceived?.Invoke(this, new TCPDatagramReceiveEventArgs<byte[]>(sender, datagram));
         }
@@ -379,7 +403,7 @@ namespace CommonModules.TCP
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="datagram"></param>
-        private void OnPlaintextReceived(TcpClient sender, byte[] datagram)
+        private void OnPlaintextReceived(AsyncTCPClient sender, byte[] datagram)
         {
             PlaintextReceived?.Invoke(this, new TCPDatagramReceiveEventArgs<string>(
                 sender, this.Encoding.GetString(datagram)));
@@ -407,7 +431,7 @@ namespace CommonModules.TCP
         /// <summary>
         /// 与服务器连接发生异常事件
         /// </summary>
-        public event EventHandler<TCPServerExceptionOccurredEventArgs> ServerExceptionOccurred;
+        public event EventHandler<TCPClientExceptionOccurredEventArgs> ClientExceptionOccurred;
 
 
         /// <summary>
@@ -431,6 +455,18 @@ namespace CommonModules.TCP
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
+                    try
+                    {
+                        Close();
+                        if (tcpClient != null)
+                            tcpClient = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Notifier.NotifyHelper.Notify( Notifier.NotifyLevel.INFO,
+                            string.Format("客户端 {0}:{1} 关闭出错！",Address[0],Port),ex);
+                    }
+
                 }
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。

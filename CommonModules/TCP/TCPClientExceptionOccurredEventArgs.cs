@@ -10,15 +10,15 @@ using System.Globalization;
 
 
 //**********************************************
-//文件名：TcpServerExceptionOccurredEventArgs
+//文件名：TCPClientExceptionOccurredEventArgs
 //命名空间：CommonModules.TCP
 //CLR版本：4.0.30319.42000
-//内容：与客户端连接发生异常事件参数
+//内容：与服务器连接发生以上事件参数
 //功能：
 //文件关系：
 //作者：胡志乾
 //小组：
-//生成日期：2020/2/23 15:56:58
+//生成日期：2020/2/25 11:35:28
 //版本号：V1.0.0.0
 //修改日志：
 //版权说明：
@@ -27,16 +27,17 @@ using System.Globalization;
 
 namespace CommonModules.TCP
 {
-   public class TCPServerExceptionOccurredEventArgs:EventArgs
+   public class TCPClientExceptionOccurredEventArgs:EventArgs
     {
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ipAddress"></param>
         /// <param name="port"></param>
         /// <param name="innerException"></param>
-        public TCPServerExceptionOccurredEventArgs(
-            IPAddress[] ipAddress,int port,Exception innerException)
+        public TCPClientExceptionOccurredEventArgs(
+            IPAddress[] ipAddress, int port, Exception innerException)
         {
             if (ipAddress != null)
                 throw new ArgumentNullException("IpAddress");
@@ -76,5 +77,6 @@ namespace CommonModules.TCP
             return s;
 
         }
+
     }
 }

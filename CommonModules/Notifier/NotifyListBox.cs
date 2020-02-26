@@ -14,7 +14,11 @@ namespace CommonModules.Notifier
         }
         public void CleraBoard()
         {
-            infoListCtrl.Items.Clear();
+            ControlSafeOPeration.CtrlSafeOperation.InvokeSafeOperation(infoListCtrl,
+                ()=> {
+                    infoListCtrl.Items.Clear();
+                });
+        
         }
 
 

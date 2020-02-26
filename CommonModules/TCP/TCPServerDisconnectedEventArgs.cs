@@ -34,7 +34,7 @@ namespace CommonModules.TCP
         /// </summary>
         /// <param name="ipAddress">服务器IP地址列表</param>
         /// <param name="port">服务器端口</param>
-        public TCPServerDisconnectedEventArgs(IPAddress[] ipAddress, int port)
+        public TCPServerDisconnectedEventArgs(IPAddress ipAddress, int port)
         {
             if (ipAddress == null)
                 throw new ArgumentNullException("IPAddress");
@@ -48,7 +48,7 @@ namespace CommonModules.TCP
         /// <summary>
         /// 服务器IP地址列表
         /// </summary>
-        public IPAddress[] Address { get; private set; }
+        public IPAddress Address { get; private set; }
 
         /// <summary>
         /// 服务器端口
@@ -60,15 +60,7 @@ namespace CommonModules.TCP
 
         public override string ToString()
         {
-            string s = string.Empty;
-            foreach (var item in Address)
-            {
-                s = s + item.ToString() + ',';
-            }
-            s = s.TrimEnd(',');
-            s = s + ":" + Port.ToString(CultureInfo.InstalledUICulture);
-            return s;
-
+            return Address + ":" + Port.ToString(CultureInfo.InstalledUICulture);    
         }
     }
 }

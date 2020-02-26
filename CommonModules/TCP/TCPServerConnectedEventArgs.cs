@@ -27,47 +27,35 @@ using System.Globalization;
 
 namespace CommonModules.TCP
 {
-   public class TCPServerConnectedEventArgs:EventArgs
+   public class TCPServerConnectedEventArgs: EventArgs
     {
 
-        /// <summary>
-        /// 与服务器的连接已断开事件参数
-        /// </summary>
-        /// <param name="ipAddress"></param>
-        /// <param name="port"></param>
-        public TCPServerConnectedEventArgs(IPAddress[] ipAddress, int port)
+        public AsyncTCPClient asyncClient;
+        public TCPServerConnectedEventArgs(IPAddress ipAddress, int port)
         {
             if (ipAddress == null)
                 throw new ArgumentNullException("IPAddress");
             this.Address = ipAddress;
             this.Port = port;
         }
-
-        #region MyRegion
+        #region 属性
 
         /// <summary>
         /// 服务器IP地址列表
         /// </summary>
-        public IPAddress[] Address { get; private set; }
+        public IPAddress Address { get; private set; }
 
         /// <summary>
         /// 服务器端口
         /// </summary>
         public int Port { get; private set; }
 
+
         #endregion
 
         public override string ToString()
         {
-            string s = string.Empty;
-            foreach (var item in Address)
-            {
-                s = s + item.ToString() + ',';
-            }
-            s = s.TrimEnd(',');
-            s = s + ":" + Port.ToString(CultureInfo.InstalledUICulture);
-            return s;
-
+            return Address + ":" + Port.ToString(CultureInfo.InstalledUICulture);
         }
     }
 }

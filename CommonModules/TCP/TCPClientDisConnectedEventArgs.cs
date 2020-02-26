@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections;
 using System.Net.Sockets;
+using System.Net;
+using System.Globalization;
 
 
 //**********************************************
@@ -29,16 +31,32 @@ namespace CommonModules.TCP
    public class TCPClientDisConnectedEventArgs:EventArgs
     {
 
-        public TCPClientDisConnectedEventArgs(TcpClient client)
+        public TCPClientDisConnectedEventArgs(IPAddress ipAddress, int port)
         {
-            if (client == null)
-                throw new ArgumentNullException("TcpClient");
-            this.TcpClient = client;
+            if (ipAddress == null)
+                throw new ArgumentNullException("IPAddress");
+            this.Address = ipAddress;
+            this.Port = port;
         }
 
+        #region 属性
+
         /// <summary>
-        /// 客户端
+        /// 服务器IP地址列表
         /// </summary>
-        public TcpClient TcpClient { get; private set; }
+        public IPAddress Address { get; private set; }
+
+        /// <summary>
+        /// 端口号
+        /// </summary>
+        public int Port { get; private set; }
+
+
+        #endregion
+
+        public override string ToString()
+        {
+            return Address + ":" + Port.ToString(CultureInfo.InstalledUICulture);
+        }
     }
 }
