@@ -23,4 +23,8 @@
 [2020-2-24 17:19] 添加AsyncTcpClient类；
 
 [2020-2-26 14:06] 添加AsyncTCPServer类；
+
+[2020-2-29 21:37] 添加XMLHelper类；  
+
+
 ##修改记录  

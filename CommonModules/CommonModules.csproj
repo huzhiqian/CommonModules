@@ -73,6 +73,7 @@
     <Compile Include="TCP\TCPServerConnectedEventArgs.cs" />
     <Compile Include="TCP\TCPServerDisconnectedEventArgs.cs" />
     <Compile Include="TCP\TcpServerExceptionOccurredEventArgs.cs" />
+    <Compile Include="XML\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LogHelper\log4net.config" />
