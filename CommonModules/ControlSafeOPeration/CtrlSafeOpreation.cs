@@ -37,9 +37,17 @@ namespace CommonModules.ControlSafeOPeration
         /// <param name="act">控件操作方法</param>
         public static void InvokeSafeOperation(Control ctrl,Action act)
         {
-            ctrl.Invoke(new Action(()=> {
+            if (ctrl.InvokeRequired)
+            {
+                ctrl.Invoke(new Action(() => {
+                    act.Invoke();
+                }));
+            }
+            else
+            {
                 act.Invoke();
-            }));
+            }
+          
         }
     }
 }

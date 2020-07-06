@@ -17,7 +17,7 @@ namespace CommonModules.Notifier
 
         public NotifyItem( NotifyLevel level, string msg)
         {
-            level = notifyLevel;
+             notifyLevel=level;
             message = msg;
         }
 

@@ -37,12 +37,11 @@ namespace CommonModules.Notifier
 
         #endregion
 
-
         #region 私有方法
 
         private void DisplayListInfo(string msg)
         {
-            if (infoListCtrl.InvokeRequired)
+            if (!infoListCtrl.InvokeRequired)
             {
                 if (infoListCtrl.Items.Count >= MaxDisplayCount)
                     infoListCtrl.Items.RemoveAt(0);

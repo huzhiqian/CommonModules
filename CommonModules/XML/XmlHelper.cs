@@ -61,8 +61,21 @@ namespace CommonModules.XML
 
         #region 属性
 
+        /// <summary>
+        /// 获取xml文档对象
+        /// </summary>
+        public XmlDocument XMLDoc
+        {
+            get { return _xmlDoc; }
+        }
 
-
+        /// <summary>
+        /// 获取xml文档根节点
+        /// </summary>
+        public XmlElement RootElement
+        {
+            get { return _rootElement; }
+        }
         #endregion
 
         #region 公共方法
@@ -80,6 +93,16 @@ namespace CommonModules.XML
             return _rootElement.SelectSingleNode(xPath);
         }
 
+        /// <summary>
+        /// 获取指定XPath表达式节点集合对象
+        /// </summary>
+        /// <param name="xPath">xPath表达式</param>
+        /// 范例1：@"Skill/First/SkillItem"，等效于@"//Skill/First/SkillItem"
+        /// 范例2：@"Table[USERNAME='a']",[]表示筛选，USERNAME是Table下的一个子节点
+        public XmlNodeList GetNodes(string xPath)
+        {
+            return _rootElement.SelectNodes(xPath);
+        }
 
         /// <summary>
         /// 获取指定xPath表达式节点的值
@@ -144,7 +167,7 @@ namespace CommonModules.XML
         public void DeleteNode(string xPath)
         {
             XmlNode node = _xmlDoc.SelectSingleNode(xPath);
-            _rootElement.RemoveChild(node);
+            node.ParentNode.RemoveChild(node);
         }
 
         /// <summary>
