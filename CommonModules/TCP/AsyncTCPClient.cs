@@ -8,6 +8,7 @@ using System.Collections;
 using System.Net.Sockets;
 using System.Net;
 using System.Globalization;
+using CommonModules.Notifier;
 
 //**********************************************
 //文件名：AsyncTCPClient
@@ -279,7 +280,16 @@ namespace CommonModules.TCP
         /// <param name="datagram">报文数据</param>
         public void Send(string datagram)
         {
-            Send(this.Encoding.GetBytes(datagram));
+            try
+            {
+                Send(this.Encoding.GetBytes(datagram));
+            }
+            catch (Exception ex)
+            {
+                NotifyHelper.Notify( NotifyLevel.ERROR,ex.Message);
+                throw ex;
+            }
+            
         }
 
         /// <summary>

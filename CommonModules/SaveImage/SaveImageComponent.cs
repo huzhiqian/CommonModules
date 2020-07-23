@@ -8,6 +8,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using CommonModules.Notifier;
 
 
 //**********************************************
@@ -55,7 +56,11 @@ namespace CommonModules.SaveImage
                 useCppKernelSave = true;
             }
             else
+            {
+                NotifyHelper.Notify( NotifyLevel.INFO,
+                    "Not Detected SacveImageKernel File！");
                 useCppKernelSave = false;
+            }
 
             //
             imageQueue = new Queue<SaveImageInfo>();
@@ -306,6 +311,12 @@ namespace CommonModules.SaveImage
         {
             get { return diskName; }
         }
+
+        /// <summary>
+        /// 获取上一次保存图像的名称（FullName）
+        /// </summary>
+        [Browsable(false)]
+        public string ImageFileName { get; private set; } = string.Empty;
         #endregion
 
         #region 公共方法
@@ -364,6 +375,7 @@ namespace CommonModules.SaveImage
                 }
                 //生成图像名
                 string fullName = MakeImageName(saveFolder, imgName);
+                ImageFileName = fullName;
                 //保存图像
                 SaveImageInfo saveImageInfo = new SaveImageInfo(image, fullName);
                 imageQueue.Enqueue(saveImageInfo);
@@ -614,7 +626,7 @@ namespace CommonModules.SaveImage
         public string fullName = null;
         public SaveImageInfo(Bitmap img, string _fullName)
         {
-            image = img;
+            image = img.Clone() as Bitmap;
             fullName = _fullName;
         }
     }

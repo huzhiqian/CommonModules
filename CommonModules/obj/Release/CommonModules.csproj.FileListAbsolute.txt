@@ -36,3 +36,16 @@ D:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonMod
 D:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.dll
 D:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.pdb
 J:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.SaveImage.SaveImageEditor.resources
+E:\软件框架及常用模块\CommonModules\CommonModules\bin\Release\CommonModules.dll
+E:\软件框架及常用模块\CommonModules\CommonModules\bin\Release\CommonModules.pdb
+E:\软件框架及常用模块\CommonModules\CommonModules\bin\Release\log4net.dll
+E:\软件框架及常用模块\CommonModules\CommonModules\bin\Release\log4net.xml
+E:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.csprojAssemblyReference.cache
+E:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.SaveImage.SaveImageEditor.resources
+E:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.SerialPort.SerialPortUI.resources
+E:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.csproj.GenerateResource.cache
+E:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.csproj.CoreCompileInputs.cache
+E:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.csproj.CopyComplete
+E:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.dll
+E:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.pdb
+J:\软件框架及常用模块\CommonModules\CommonModules\obj\Release\CommonModules.Properties.Resources.resources
